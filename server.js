@@ -33,3 +33,15 @@ app.get("/SignIn", (req, res) => {
       res.send("Usuario o contraseña invalidos...")
     }
   });
+
+  app.get("/usuario", (req, res) => {    // la ruta usuario esta anclada <a href=/usuario?token=
+    let { token } = req.query;
+    jwt.verify(token, secretKey, (err, decoded) =>{
+      err
+      ? res.status(401).send({
+        error: "401 no autorizado",
+        message: err.message,
+      })
+      : res.send(`Bienvenido usuario validado ${decoded.data.email}`);
+    });
+  });
